@@ -23,9 +23,13 @@ class HCTree {
 
   public:
     /* TODO: add function header and implement */
-    HCTree() {}
+    /* Initializes tree with a null root */
+    HCTree() {
+    	root = nullptr;
+    }
 
     /* TODO: add function header */
+    /* deletes all nodes in tree */
     ~HCTree();
 
     /* TODO: add function header */
@@ -42,6 +46,10 @@ class HCTree {
 
     /* TODO: add function header */
     byte decode(istream& in) const;
+
+    /* helper method for destructor */
+    void deleteAll(HCNode* node) const;
+ 
 };
 
 #endif  // HCTREE_HPP
