@@ -26,9 +26,9 @@ void HCTree::deleteAll(HCNode* node)const{
 /* TODO */
 void HCTree::build(const vector<unsigned int>& freqs) {
 	priority_queue<HCNode*, vector<HCNode*>, HCNodePtrComp> forest; 
-	for(int i = 0; i < VECTOR_SIZE; i++){
-		if(freqs[i] != 0){
-			HCNode* newNode = new HCNode(freqs[i], i);
+	for(unsigned int i = 0; i < VECTOR_SIZE; i++){
+		if(freqs[i] > 0){
+			HCNode* newNode = new HCNode(freqs[i], (char)i);
 			leaves.push_back(newNode);
 			forest.push(newNode);
 		}
@@ -38,30 +38,27 @@ void HCTree::build(const vector<unsigned int>& freqs) {
 		forest.pop();
 		HCNode* c1 = forest.top();
 		forest.pop();
-		int newCount = c0->count + c1->count;
+		unsigned int newCount = (c0->count + c1->count);
 		HCNode* newParent = new HCNode(newCount, c1->symbol);
-		newParent->c0 = c0;
-		newParent->c1 = c1;
 		c0->p = newParent;
 		c1->p = newParent;
+		newParent->c0 = c0;
+		newParent->c1 = c1;
 		forest.push(newParent);
-		if(forest.size() == 1){
+		if(forest.size() < 2){
 			root = newParent;
 		}
 	}
 }
 
 /* TODO */
-void HCTree::encode(byte symbol, BitOutputStream& out) const {
-
-}
+void HCTree::encode(byte symbol, BitOutputStream& out) const {}
 
 /* TODO */
 void HCTree::encode(byte symbol, ostream& out) const {
 	HCNode* curr;
-	char character = (char) symbol;
 	for(unsigned int i = 0; i < leaves.size(); i++){
-		if(character == leaves[i]->symbol){
+		if(symbol == leaves[i]->symbol){
 			curr = leaves[i];
 		}
 	}
@@ -78,16 +75,14 @@ void HCTree::encode(byte symbol, ostream& out) const {
 }
 
 /* TODO */
-byte HCTree::decode(BitInputStream& in) const { 
-	return ' ';
-}
+byte HCTree::decode(BitInputStream& in) const { return ' ';}
 
 /* TODO */
 byte HCTree::decode(istream& in) const { 
 	HCNode* letter = root;
 	char ch;
-	while(!(letter->c0 || letter->c1)){
-		in >> ch;
+	while(letter->c0 || letter->c1){
+		in.get(ch);
 		if( ch == '0'){
 			letter = letter->c0;
 		}else{

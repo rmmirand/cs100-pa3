@@ -45,7 +45,7 @@ struct HCNodePtrComp {
 	    if(lhs->count == rhs->count){
 		return lhs->symbol > rhs->symbol;
 	    }
-	    return lhs->count > rhs->count; 
+	    return lhs->count < rhs->count; 
     }
 };
 #endif  // HCNODE_HPP
