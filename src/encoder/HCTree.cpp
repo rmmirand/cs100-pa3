@@ -53,10 +53,10 @@ void HCTree::build(const vector<unsigned int>& freqs) {
 
 /* TODO */
 void HCTree::encode(byte symbol, BitOutputStream& out) const {}
-
 /* TODO */
 void HCTree::encode(byte symbol, ostream& out) const {
 	HCNode* curr;
+	string word = "";
 	for(unsigned int i = 0; i < leaves.size(); i++){
 		if(symbol == leaves[i]->symbol){
 			curr = leaves[i];
@@ -66,12 +66,13 @@ void HCTree::encode(byte symbol, ostream& out) const {
 	while(curr->p){
 		parent = curr->p;
 		if(curr == parent->c0){
-			out << '0';
+			word = "0" + word;
 		}else{
-			out << '1';
+			word = "1" + word;
 		}
 		curr = parent;
 	}
+	out << word;
 }
 
 /* TODO */

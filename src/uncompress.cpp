@@ -16,11 +16,12 @@ void pseudoDecompression(string inFileName, string outFileName) {
 	HCTree* tree = new HCTree();
 	vector<unsigned int> freqs(256);
 	unsigned int freqNum;
+	string letters;
 
 	ifstream in;
 	ofstream out;
 
-	in.open(inFileName);
+	in.open(inFileName, ios::binary);
 	out.open(outFileName, ios::trunc);
 	
 	for(unsigned int i = 0; i < 256; i++){
@@ -30,8 +31,9 @@ void pseudoDecompression(string inFileName, string outFileName) {
 	tree->build(freqs);
 	while(!(in.peek() == EOF)){
 		char decod= tree->decode(in);
-		out << decod;
+		letters = letters + decod;
 	}
+	out << letters;
 	delete tree;
 	in.close();
 	out.close();

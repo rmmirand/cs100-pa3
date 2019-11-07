@@ -50,7 +50,7 @@ TEST_F(SimpleHCTreeFixture, TEST_ENCODE5) {
     ASSERT_EQ(os.str(), "10");
 }
 TEST_F(SimpleHCTreeFixture, TEST_DECODE) {
-    istringstream is("11");
+    istringstream is("01");
     ASSERT_EQ(tree.decode(is), 'b');
 }
 TEST_F(SimpleHCTreeFixture, TEST_DECODE2) {
