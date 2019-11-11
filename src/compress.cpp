@@ -27,7 +27,7 @@ void pseudoCompression(string inFileName, string outFileName) {
 		return;	
 	}
 
-	vector<unsigned int> frequencies;
+	vector<unsigned int> frequencies(256);
 	char a;
 	in.get(a);
 	while(!in.eof()){

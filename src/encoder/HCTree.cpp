@@ -28,7 +28,7 @@ void HCTree::build(const vector<unsigned int>& freqs) {
 	priority_queue<HCNode*, vector<HCNode*>, HCNodePtrComp> forest; 
 	for(unsigned int i = 0; i < VECTOR_SIZE; i++){
 		if(freqs[i] > 0){
-			HCNode* newNode = new HCNode(freqs[i], (char)i);
+			HCNode* newNode = new HCNode(freqs[i], (unsigned char)i);
 			leaves.push_back(newNode);
 			forest.push(newNode);
 		}
@@ -81,9 +81,9 @@ byte HCTree::decode(BitInputStream& in) const { return ' ';}
 /* TODO */
 byte HCTree::decode(istream& in) const { 
 	HCNode* letter = root;
-	unsigned char ch;
+	char ch;
 	while(letter->c0 || letter->c1){
-		ch = (unsigned char) in.get();
+		ch = in.get();
 		if( ch == '0'){
 			letter = letter->c0;
 		}else{
