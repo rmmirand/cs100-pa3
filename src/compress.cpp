@@ -27,7 +27,7 @@ void pseudoCompression(string inFileName, string outFileName) {
 		return;	
 	}
 
-	vector<unsigned int> frequencies(256);
+	vector<unsigned int> frequencies;
 	char a;
 	in.get(a);
 	while(!in.eof()){
@@ -38,12 +38,12 @@ void pseudoCompression(string inFileName, string outFileName) {
 	tree->build(frequencies);
 	in.close();
 	in.open(inFileName);
-	for(unsigned int i = 0; i < 256; i++){
+	for(unsigned int i = 0; i < frequencies.size(); i++){
 		out << frequencies[i] << endl;
 	}
 	while(in.peek() != ifstream::traits_type::eof()){
 		in.get(wurd);
-		tree->encode(wurd, out);
+		tree->encode((unsigned int)wurd, out);
 	}
 	delete tree;
 	in.close();
