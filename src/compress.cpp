@@ -43,7 +43,7 @@ void pseudoCompression(string inFileName, string outFileName) {
 	}
 	while(in.peek() != ifstream::traits_type::eof()){
 		in.get(wurd);
-		tree->encode((unsigned int)wurd, out);
+		tree->encode((unsigned char)wurd, out);
 	}
 	delete tree;
 	in.close();
