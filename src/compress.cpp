@@ -26,6 +26,11 @@ void pseudoCompression(string inFileName, string outFileName) {
 	if(in.peek() == ifstream::traits_type::eof()){
 		return;	
 	}
+	if(!out.good()){
+		fstream file(outFileName, ios::out);
+		out.close();
+		out.open(outFileName, ios::trunc);
+	}
 
 	vector<unsigned int> frequencies(256);
 	unsigned char a = in.get();
