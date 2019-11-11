@@ -28,11 +28,10 @@ void pseudoCompression(string inFileName, string outFileName) {
 	}
 
 	vector<unsigned int> frequencies(256);
-	char a;
-	in.get(a);
+	unsigned char a = in.get();
 	while(!in.eof()){
 		frequencies[(unsigned char)a]++;
-		in.get(a);
+		 a = in.get();
 	}
 	
 	tree->build(frequencies);
