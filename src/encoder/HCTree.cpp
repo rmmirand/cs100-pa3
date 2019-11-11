@@ -35,6 +35,9 @@ void HCTree::build(const vector<unsigned int>& freqs) {
 			leaves.push_back(nullptr);
 		}
 	}
+	if(forest.size() == 1){
+		root = forest.top();
+	}
 	while(forest.size() > 1){
 		HCNode* c0 = forest.top();
 		forest.pop();
@@ -61,6 +64,9 @@ void HCTree::encode(byte symbol, ostream& out) const {
 	string word = "";
 	curr = leaves[symbol];
 	HCNode* parent;
+	if(!curr->p){
+		out <<  "0";
+	}
 	while(curr->p){
 		parent = curr->p;
 		if(curr == parent->c0){
@@ -80,13 +86,14 @@ byte HCTree::decode(BitInputStream& in) const { return ' ';}
 byte HCTree::decode(istream& in) const { 
 	HCNode* letter = root;
 	char ch;
-	while(letter->c0 || letter->c1){
-		ch = in.get();
+        ch = in.get();	
+	while(letter->c0 && letter->c1){
 		if( ch == '0'){
 			letter = letter->c0;
 		}else{
 			letter = letter->c1;
 		}
+		ch = in.get();
 	}
 	return letter->symbol; 
 }
