@@ -29,9 +29,12 @@ void pseudoDecompression(string inFileName, string outFileName) {
 		freqs[i] = freqNum;
 	}
 	tree->build(freqs);
+	in.get();
 	while(!(in.peek() == EOF)){
 		char decod= tree->decode(in);
-		letters = letters + decod;
+		if(!(in.peek() == EOF)){
+			letters = letters + decod;
+		}
 	}
 	out << letters;
 	delete tree;

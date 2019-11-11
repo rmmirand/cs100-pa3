@@ -31,7 +31,7 @@ void pseudoCompression(string inFileName, string outFileName) {
 	char a;
 	in.get(a);
 	while(!in.eof()){
-		frequencies[a]++;
+		frequencies[(unsigned char)a]++;
 		in.get(a);
 	}
 	
