@@ -25,12 +25,14 @@ void HCTree::deleteAll(HCNode* node)const{
 }
 /* TODO */
 void HCTree::build(const vector<unsigned int>& freqs) {
-	priority_queue<HCNode*, vector<HCNode*>, HCNodePtrComp> forest; 
+	priority_queue<HCNode*, vector<HCNode*>, HCNodePtrComp> forest;	
 	for(unsigned int i = 0; i < VECTOR_SIZE; i++){
 		if(freqs[i] > 0){
 			HCNode* newNode = new HCNode(freqs[i], (unsigned char)i);
 			leaves.push_back(newNode);
 			forest.push(newNode);
+		}else{
+			leaves.push_back(nullptr);
 		}
 	}
 	while(forest.size() > 1){
@@ -57,11 +59,7 @@ void HCTree::encode(byte symbol, BitOutputStream& out) const {}
 void HCTree::encode(byte symbol, ostream& out) const {
 	HCNode* curr;
 	string word = "";
-	for(unsigned int i = 0; i < leaves.size(); i++){
-		if(symbol == leaves[i]->symbol){
-			curr = leaves[i];
-		}
-	}
+	curr = leaves[symbol];
 	HCNode* parent;
 	while(curr->p){
 		parent = curr->p;

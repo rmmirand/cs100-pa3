@@ -23,7 +23,9 @@ void pseudoDecompression(string inFileName, string outFileName) {
 
 	in.open(inFileName, ios::binary);
 	out.open(outFileName, ios::trunc);
-	
+	if(!in.good() || !out.good()){
+		exit(EXIT_FAILURE);
+	}
 	for(unsigned int i = 0; i < 256; i++){
 		in >> freqNum;
 		freqs[i] = freqNum;
