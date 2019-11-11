@@ -54,6 +54,10 @@ void trueCompression(string inFileName, string outFileName) {}
 
 /* TODO: Main program that runs the compress */
 int main(int argc, char* argv[]) { 	
+	if(argc < 3){
+		cout << "Invalid Number of Arguements" << endl;
+		exit(EXIT_FAILURE);
+	}
 	pseudoCompression(argv[1], argv[2]);
 
 	return 0; }

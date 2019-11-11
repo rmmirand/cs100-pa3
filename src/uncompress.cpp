@@ -47,7 +47,10 @@ void trueDecompression(string inFileName, string outFileName) {}
 
 /* TODO: Main program that runs the uncompress */
 int main(int argc, char* argv[]) { 
-
+	if(argc < 3){
+		cout << "Invalid Number of Arguements" << endl;
+		exit(EXIT_FAILURE);
+	}
 	pseudoDecompression(argv[1], argv[2]);
 	return 0; 
 }
