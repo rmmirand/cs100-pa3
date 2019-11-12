@@ -86,14 +86,14 @@ byte HCTree::decode(BitInputStream& in) const { return ' ';}
 byte HCTree::decode(istream& in) const { 
 	HCNode* letter = root;
 	char ch;
-        ch = in.get();	
 	while(letter->c0 && letter->c1){
+		ch = in.get();
 		if( ch == '0'){
 			letter = letter->c0;
 		}else{
 			letter = letter->c1;
 		}
-		ch = in.get();
 	}
 	return letter->symbol; 
 }
+
