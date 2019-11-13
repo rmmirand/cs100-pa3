@@ -34,13 +34,10 @@ void pseudoDecompression(string inFileName, string outFileName) {
 	}
 	tree->build(freqs);
 	in.get();
-	while(!(in.peek() == EOF)){
-		char decod= tree->decode(in);
-		if(!(in.peek() == EOF)){
-			letters = letters + decod;
-		}
+	while(in.peek()!= ifstream::traits_type::eof()){
+		unsigned char decod= tree->decode(in);
+		out << decod;	
 	}
-	out << letters;
 	delete tree;
 	in.close();
 	out.close();

@@ -86,6 +86,9 @@ byte HCTree::decode(BitInputStream& in) const { return ' ';}
 byte HCTree::decode(istream& in) const { 
 	HCNode* letter = root;
 	char ch;
+	if(!(letter->c0 && letter->c1)){
+		ch = in.get();
+	}
 	while(letter->c0 && letter->c1){
 		ch = in.get();
 		if( ch == '0'){
