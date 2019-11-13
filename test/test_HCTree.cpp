@@ -18,9 +18,9 @@ class SimpleHCTreeFixture : public ::testing::Test {
         vector<unsigned int> freqs(256);
         freqs['a'] = 10;
         freqs['b'] = 10;
-	freqs['c'] = 10;
-	freqs['d'] = 10;
-	freqs['\n'] = 1;
+        freqs['c'] = 10;
+        freqs['d'] = 10;
+        freqs['\n'] = 1;
         tree.build(freqs);
     }
 };
@@ -56,4 +56,38 @@ TEST_F(SimpleHCTreeFixture, TEST_DECODE) {
 TEST_F(SimpleHCTreeFixture, TEST_DECODE2) {
     istringstream is("00");
     ASSERT_EQ(tree.decode(is), 'c');
+}
+TEST_F(SimpleHCTreeFixture, TEST_NEWENCODE) {
+    string a;
+    unsigned char bit = (unsigned int)(128);
+    a += bit;
+    ostringstream os;
+    BitOutputStream output(os);
+    tree.encode('a', output);
+    if (output.getBits() > 0) {
+        output.flush();
+    }
+    ASSERT_EQ(os.str(), a);
+}
+TEST_F(SimpleHCTreeFixture, TEST_NEWENCODE2) {
+    string a;
+    unsigned char bit = (unsigned int)(144);
+    a += bit;
+    ostringstream os;
+    BitOutputStream output(os);
+    tree.encode('a', output);
+    tree.encode('b', output);
+    tree.encode('c', output);
+    if (output.getBits() > 0) {
+        output.flush();
+    }
+    ASSERT_EQ(os.str(), a);
+}
+TEST_F(SimpleHCTreeFixture, TEST_NEWDECODE) {
+    string a;
+    unsigned char bit = (unsigned int)(128);
+    a += bit;
+    istringstream is(a);
+    BitInputStream input(is);
+    ASSERT_EQ(tree.decode(input), 'a');
 }

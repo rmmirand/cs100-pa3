@@ -1,7 +1,9 @@
 /**
- * TODO: file header
+ * TODO: Creates an HCNode class to make up our HCTree and allow storage of
+ * characters, their children and their count values.
  *
- * Author:
+ * Author: Rosa Miranda
+ * rmmirand@ucsd.edu
  */
 #ifndef HCNODE_HPP
 #define HCNODE_HPP
@@ -41,11 +43,13 @@ ostream& operator<<(ostream& stm, const HCNode& n) {
  */
 struct HCNodePtrComp {
     /* TODO */
+    /* Compares the nodes based on counts, and if equal based on their ascii
+     * values*/
     bool operator()(HCNode*& lhs, HCNode*& rhs) const {
-	    if(lhs->count == rhs->count){
-		return lhs->symbol < rhs->symbol;
-	    }
-	    return lhs->count > rhs->count; 
+        if (lhs->count == rhs->count) {
+            return lhs->symbol < rhs->symbol;
+        }
+        return lhs->count > rhs->count;
     }
 };
 #endif  // HCNODE_HPP
