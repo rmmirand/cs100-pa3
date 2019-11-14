@@ -55,6 +55,9 @@ class HCTree {
 
     /* helper method for destructor */
     void deleteAll(HCNode* node) const;
+
+    /* returns root element */
+    HCNode* getRoot() { return root; }
 };
 
 #endif  // HCTREE_HPP

@@ -14,6 +14,7 @@
 #define ARGONE 1
 #define ARGTWO 2
 #define ARGTHREE 3
+#define ASCII 256
 /* TODO: add pseudo compression with ascii encoding and naive header
  * (checkpoint) */
 void pseudoCompression(string inFileName, string outFileName) {
@@ -35,7 +36,7 @@ void pseudoCompression(string inFileName, string outFileName) {
         out.open(outFileName, ios::trunc);
     }
 
-    vector<unsigned int> frequencies(256);
+    vector<unsigned int> frequencies(ASCII);
     while (in.peek() != ifstream::traits_type::eof()) {
         unsigned char a = in.get();
         frequencies[(unsigned char)a]++;
@@ -50,6 +51,7 @@ void pseudoCompression(string inFileName, string outFileName) {
         in.get(wurd);
         tree->encode((unsigned char)wurd, out);
     }
+
     delete tree;
     in.close();
     out.close();
@@ -76,20 +78,28 @@ void trueCompression(string inFileName, string outFileName) {
     }
 
     BitOutputStream stream(out);
-    vector<unsigned int> frequencies(256);
+    vector<unsigned int> frequencies(ASCII);
 
     while (in.peek() != ifstream::traits_type::eof()) {
         unsigned char a = in.get();
         frequencies[(unsigned char)a]++;
     }
-
     tree->build(frequencies);
+    out << (unsigned char)tree->getRoot()->count;
+    for(unsigned int i = 0; i < frequencies.size() ; i++){
+	if(frequencies[i] > 0){
+		out << (unsigned char)i << frequencies[i] << " ";
+	}
+
+    }
+    out  << "\n" << "00" << endl;
     in.close();
     in.open(inFileName, ios::binary);
     while (in.peek() != ifstream::traits_type::eof()) {
         in.get(wurd);
         tree->encode((unsigned char)wurd, stream);
     }
+    cout << "length: " << outFileName.length();
     delete tree;
     in.close();
     out.close();
