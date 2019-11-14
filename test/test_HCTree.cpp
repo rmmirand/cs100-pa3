@@ -91,3 +91,12 @@ TEST_F(SimpleHCTreeFixture, TEST_NEWDECODE) {
     BitInputStream input(is);
     ASSERT_EQ(tree.decode(input), 'a');
 }
+TEST_F(SimpleHCTreeFixture, TEST_SINGLEENCODE){
+    HCTree tree2;
+    vector<unsigned int> freqs2(256);
+    freqs2['\n'] = 4;
+    tree2.build(freqs2);
+    ostringstream os;
+    tree2.encode('\n', os);
+    ASSERT_EQ(os.str(), "0");
+}
