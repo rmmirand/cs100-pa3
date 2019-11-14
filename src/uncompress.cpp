@@ -73,39 +73,38 @@ void trueDecompression(string inFileName, string outFileName) {
     unsigned char count = 1;
     bool go = true;
     cout << chars;
-    while(go) {
+    while (go) {
         a = (unsigned int)in.get();
         num = ((unsigned int)(in.get()));
-	freqs[a] =( num - 48);
-	in.get();
-	if(in.peek() == '\n'){
-	     in.get();
-	     if(in.peek() == '0'){
-		 in.get();
-		 if(in.peek() == '0'){
-			in.get();
-			go = false;
-		 }else{
-			in.unget();
-			in.unget();
-		 }
-	     }else{
-		in.unget();
-	     }
-	}
+        freqs[a] = (num - 48);
+        in.get();
+        if (in.peek() == '\n') {
+            in.get();
+            if (in.peek() == '0') {
+                in.get();
+                if (in.peek() == '0') {
+                    in.get();
+                    go = false;
+                } else {
+                    in.unget();
+                    in.unget();
+                }
+            } else {
+                in.unget();
+            }
+        }
     }
     in.get();
     BitInputStream input(in);
     tree->build(freqs);
-    while(in.peek() != ifstream::traits_type::eof() && (count < chars)) {
+    while (in.peek() != ifstream::traits_type::eof() && (count < chars)) {
         unsigned char decod = tree->decode(input);
         out << decod;
-	count ++;
+        count++;
     }
     delete tree;
     in.close();
     out.close();
-
 }
 
 /* TODO: Main program that runs the uncompress */
