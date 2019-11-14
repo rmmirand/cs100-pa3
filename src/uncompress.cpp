@@ -127,12 +127,12 @@ int main(int argc, char* argv[]) {
         "h,help", "Print help and exit");
     options.parse_positional({"input", "output"});
     auto userOptions = options.parse(argc, argv);
-
+/*
     if (userOptions.count("help") || !FileUtils::isValidFile(inFileName) ||
         outFileName.empty()) {
         cout << options.help({"help"}) << std::endl;
         exit(0);
-    }
+    }*/
 
     if (isAsciiOutput) {
         pseudoDecompression(argv[ARGONE + 1], argv[ARGTWO + 1]);

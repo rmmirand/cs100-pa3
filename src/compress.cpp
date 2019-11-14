@@ -43,7 +43,7 @@ void pseudoCompression(string inFileName, string outFileName) {
     }
     tree->build(frequencies);
     in.close();
-    in.open(inFileName);
+    in.open(inFileName, ios::binary);
     for (unsigned int i = 0; i < frequencies.size(); i++) {
         out << frequencies[i] << endl;
     }
@@ -122,12 +122,12 @@ int main(int argc, char* argv[]) {
         "h,help", "Print help and exit");
     options.parse_positional({"input", "output"});
     auto userOptions = options.parse(argc, argv);
-
+/*
     if (userOptions.count("help") || !FileUtils::isValidFile(inFileName) ||
         outFileName.empty()) {
         cout << options.help({"help"}) << std::endl;
         exit(0);
-    }
+    }*/
 
     if (isAsciiOutput) {
         pseudoCompression(argv[ARGONE + 1], argv[ARGTWO + 1]);
