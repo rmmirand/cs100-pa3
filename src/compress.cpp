@@ -85,22 +85,22 @@ void trueCompression(string inFileName, string outFileName) {
         frequencies[(unsigned char)a]++;
     }
     tree->build(frequencies);
-    out << (unsigned char)tree->getRoot()->count;
-    cout << (unsigned char)tree->getRoot()->count;
+    out << tree->getRoot()->count << endl;
     for (unsigned int i = 0; i < frequencies.size(); i++) {
         if (frequencies[i] > 0) {
-            out << (unsigned char)i << (unsigned char)frequencies[i] << " ";
+            out << (unsigned char)i << endl
+                << (unsigned int)frequencies[i] << endl;
         }
     }
-    out << "\n0"<< endl;
+    out << "\n0" << endl;
     in.close();
     in.open(inFileName, ios::binary);
     while (in.peek() != ifstream::traits_type::eof()) {
         in.get(wurd);
         tree->encode((unsigned char)wurd, stream);
     }
-    if(stream.getBits() < BYTE){
-	stream.flush();
+    if (stream.getBits() < BYTE) {
+        stream.flush();
     }
     delete tree;
     in.close();

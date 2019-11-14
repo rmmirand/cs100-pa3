@@ -64,7 +64,7 @@ void HCTree::encode(byte symbol, BitOutputStream& out) const {
 
     if (!curr->p) {
         out.writeBit(0);
-	return;
+        return;
     }
     while (curr->p) {
         parent = curr->p;
@@ -108,8 +108,8 @@ void HCTree::encode(byte symbol, ostream& out) const {
 /* TODO */
 byte HCTree::decode(BitInputStream& in) const {
     HCNode* letter = root;
-    if(!letter->c0 && !letter->c1){
-	in.readBit();
+    if (!letter->c0 && !letter->c1) {
+        in.readBit();
     }
     while (letter->c0 && letter->c1) {
         if (in.readBit() == 0) {

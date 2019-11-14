@@ -67,25 +67,35 @@ void trueDecompression(string inFileName, string outFileName) {
         fstream out(outFileName, ios::out);
         out.open(outFileName, ios::trunc);
     }
-    unsigned char a;
+    unsigned int a;
     unsigned int num;
-    unsigned char chars = (unsigned char)in.get();
+    unsigned int chars;
     unsigned char count = 0;
     bool go = true;
+
+    in >> chars;
+    in.get();
+    int i = 0;
     while (go) {
         a = in.get();
-        num = ((unsigned int)in.get());
-        freqs[a] = (num );
         in.get();
-        if(in.peek() == '\n') {
+        num = ((unsigned int)in.get() - '0');
+        while (in.peek() != '\n') {
+            num = num * 10;
+            num = num + (in.get() - '0');
+        }
+        in.get();
+        freqs[(unsigned char)a] = (unsigned int)(num - '0');
+        if (in.peek() == '\n') {
             a = in.get();
-            if(in.peek() == '0') {
+            if (in.peek() == '0') {
                 a = in.get();
-		go = false;
-            }else {
+                go = false;
+            } else {
                 in.putback(a);
             }
         }
+        i++;
     }
     in.get();
     BitInputStream input(in);
