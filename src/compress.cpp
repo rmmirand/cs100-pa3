@@ -85,7 +85,7 @@ void trueCompression(string inFileName, string outFileName) {
         frequencies[(unsigned char)a]++;
     }
     tree->build(frequencies);
-    out << tree->getRoot()->count << endl;
+    out << tree->getRoot()->count;
     for (unsigned int i = 0; i < frequencies.size(); i++) {
         if (frequencies[i] > 0) {
             out << (unsigned char)i << endl
@@ -99,7 +99,7 @@ void trueCompression(string inFileName, string outFileName) {
         in.get(wurd);
         tree->encode((unsigned char)wurd, stream);
     }
-    if (stream.getBits() < BYTE) {
+    if (stream.getBits() > 0) {
         stream.flush();
     }
     delete tree;

@@ -13,7 +13,6 @@
 /* TODO */
 void BitOutputStream::flush() {
     out.put(buf);
-    out.flush();
     buf = 0;
     nbits = 0;
 }

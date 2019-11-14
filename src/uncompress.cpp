@@ -22,7 +22,7 @@
  */
 void pseudoDecompression(string inFileName, string outFileName) {
     HCTree* tree = new HCTree();
-    vector<unsigned int> freqs(256);
+    vector<unsigned int> freqs(ASCII);
     unsigned int freqNum;
     string letters;
 
@@ -70,22 +70,24 @@ void trueDecompression(string inFileName, string outFileName) {
     unsigned int a;
     unsigned int num;
     unsigned int chars;
-    unsigned char count = 0;
+    unsigned int count = 0;
     bool go = true;
 
-    in >> chars;
-    in.get();
-    int i = 0;
+    chars = ((unsigned int)in.get() - '0');
+    while (in.peek() != '\n') {
+        chars *= 10;
+        chars = chars + ((unsigned int)in.get() - '0');
+    }
     while (go) {
         a = in.get();
         in.get();
         num = ((unsigned int)in.get() - '0');
         while (in.peek() != '\n') {
             num = num * 10;
-            num = num + (in.get() - '0');
+            num = num + ((unsigned int)in.get() - '0');
         }
         in.get();
-        freqs[(unsigned char)a] = (unsigned int)(num - '0');
+        freqs[(unsigned char)a] = num;
         if (in.peek() == '\n') {
             a = in.get();
             if (in.peek() == '0') {
@@ -95,12 +97,12 @@ void trueDecompression(string inFileName, string outFileName) {
                 in.putback(a);
             }
         }
-        i++;
     }
+
     in.get();
     BitInputStream input(in);
     tree->build(freqs);
-    while (in.peek() != ifstream::traits_type::eof() && (count < chars)) {
+    while (count < chars) {
         unsigned char decod = tree->decode(input);
         out << decod;
         count++;
