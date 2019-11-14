@@ -13,7 +13,7 @@
 #include "cxxopts.hpp"
 #define ARGONE 1
 #define ARGTWO 2
-#define ARGTHREE 3
+#define BYTE 8
 #define ASCII 256
 /* TODO: add pseudo compression with ascii encoding and naive header
  * (checkpoint) */
@@ -86,20 +86,22 @@ void trueCompression(string inFileName, string outFileName) {
     }
     tree->build(frequencies);
     out << (unsigned char)tree->getRoot()->count;
+    cout << (unsigned char)tree->getRoot()->count;
     for (unsigned int i = 0; i < frequencies.size(); i++) {
         if (frequencies[i] > 0) {
-            out << (unsigned char)i << frequencies[i] << " ";
+            out << (unsigned char)i << (unsigned char)frequencies[i] << " ";
         }
     }
-    out << "\n"
-        << "00" << endl;
+    out << "\n0"<< endl;
     in.close();
     in.open(inFileName, ios::binary);
     while (in.peek() != ifstream::traits_type::eof()) {
         in.get(wurd);
         tree->encode((unsigned char)wurd, stream);
     }
-    cout << "length: " << outFileName.length();
+    if(stream.getBits() < BYTE){
+	stream.flush();
+    }
     delete tree;
     in.close();
     out.close();

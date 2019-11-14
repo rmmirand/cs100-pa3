@@ -69,28 +69,21 @@ void trueDecompression(string inFileName, string outFileName) {
     }
     unsigned char a;
     unsigned int num;
-    unsigned char chars = in.get();
-    unsigned char count = 1;
+    unsigned char chars = (unsigned char)in.get();
+    unsigned char count = 0;
     bool go = true;
-    cout << chars;
     while (go) {
-        a = (unsigned int)in.get();
-        num = ((unsigned int)(in.get()));
-        freqs[a] = (num - 48);
+        a = in.get();
+        num = ((unsigned int)in.get());
+        freqs[a] = (num );
         in.get();
-        if (in.peek() == '\n') {
-            in.get();
-            if (in.peek() == '0') {
-                in.get();
-                if (in.peek() == '0') {
-                    in.get();
-                    go = false;
-                } else {
-                    in.unget();
-                    in.unget();
-                }
-            } else {
-                in.unget();
+        if(in.peek() == '\n') {
+            a = in.get();
+            if(in.peek() == '0') {
+                a = in.get();
+		go = false;
+            }else {
+                in.putback(a);
             }
         }
     }
