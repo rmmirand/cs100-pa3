@@ -58,6 +58,11 @@ class HCTree {
 
     /* returns root element */
     HCNode* getRoot() { return root; }
+
+    /* returns HCNode in leaves*/
+    HCNode* getLeaves(unsigned int i){ return leaves[i]; }
+    /* returns leaves size */
+    unsigned int getLeavesSize(){ return leaves.size(); }
 };
 
 #endif  // HCTREE_HPP

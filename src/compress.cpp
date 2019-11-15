@@ -17,6 +17,14 @@
 #define ASCII 256
 /* TODO: add pseudo compression with ascii encoding and naive header
  * (checkpoint) */
+struct FreqComp{
+	bool operator()(pair<unsigned char, unsigned int> lhs, pair<unsigned char, unsigned int> rhs) const{
+		if(lhs.second == rhs.second){
+			return lhs.first > rhs.first;
+		}
+		return lhs.second < rhs.second;
+	}
+};
 void pseudoCompression(string inFileName, string outFileName) {
     HCTree* tree = new HCTree();
     char wurd;
@@ -85,14 +93,23 @@ void trueCompression(string inFileName, string outFileName) {
         frequencies[(unsigned char)a]++;
     }
     tree->build(frequencies);
-    out << tree->getRoot()->count;
-    for (unsigned int i = 0; i < frequencies.size(); i++) {
-        if (frequencies[i] > 0) {
-            out << (unsigned char)i << endl
-                << (unsigned int)frequencies[i] << endl;
-        }
+    out << tree->getRoot()->count << endl;
+
+    vector<pair<unsigned char, unsigned int>> newLeaves;
+
+    for(unsigned int i; i < frequencies.size(); i++){
+	if(frequencies[i] > 0){
+		newLeaves.push_back(make_pair((unsigned char)i, frequencies[(unsigned char)i]));
+		cout << newLeaves[0].first << newLeaves[0].second;
+	}
     }
-    out << "\n0" << endl;
+
+    FreqComp comp;
+    sort(newLeaves.begin(), newLeaves.end(), comp);
+    for (unsigned int i = 0; i < newLeaves.size(); i++) {
+	    out << newLeaves[i].first;
+    }
+    out << "\n" << endl;
     in.close();
     in.open(inFileName, ios::binary);
     while (in.peek() != ifstream::traits_type::eof()) {

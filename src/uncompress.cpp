@@ -71,6 +71,7 @@ void trueDecompression(string inFileName, string outFileName) {
     unsigned int num;
     unsigned int chars;
     unsigned int count = 0;
+    unsigned int totcnt = 0;
     bool go = true;
 
     chars = ((unsigned int)in.get() - '0');
@@ -78,24 +79,21 @@ void trueDecompression(string inFileName, string outFileName) {
         chars *= 10;
         chars = chars + ((unsigned int)in.get() - '0');
     }
+    in.get();
+    unsigned int i = 1;
     while (go) {
         a = in.get();
-        in.get();
-        num = ((unsigned int)in.get() - '0');
-        while (in.peek() != '\n') {
-            num = num * 10;
-            num = num + ((unsigned int)in.get() - '0');
-        }
-        in.get();
-        freqs[(unsigned char)a] = num;
-        if (in.peek() == '\n') {
+      //  num = ((unsigned int)in.get() - '0');
+       // while (in.peek() != '\n') {
+        //    num = num * 10;
+         //   num = num + ((unsigned int)in.get() - '0');
+       // }
+       // in.get();
+        freqs[(unsigned char)a] = i;
+	i++;
+        if ((in.peek() == '\n') && (freqs['\n'] > 0)) {
             a = in.get();
-            if (in.peek() == '0') {
-                a = in.get();
-                go = false;
-            } else {
-                in.putback(a);
-            }
+	    go = false;
         }
     }
 
