@@ -69,40 +69,36 @@ void trueDecompression(string inFileName, string outFileName) {
     }
     unsigned int a;
     unsigned int num;
-    unsigned int chars;
+    unsigned int chars = 0;
     unsigned int count = 0;
+    unsigned int totcnt = 0;
+    unsigned int bytes = 0;
     bool go = true;
 
-    chars = ((unsigned int)in.get() - '0');
     while (in.peek() != '\n') {
-        chars *= 10;
-        chars = chars + ((unsigned int)in.get() - '0');
+        in.get();
+        chars++;
     }
     while (go) {
         a = in.get();
-        in.get();
         num = ((unsigned int)in.get() - '0');
-        while (in.peek() != '\n') {
+        bytes = 1;
+        while (bytes < chars) {
             num = num * 10;
             num = num + ((unsigned int)in.get() - '0');
+            bytes++;
         }
-        in.get();
+        totcnt += num;
         freqs[(unsigned char)a] = num;
-        if (in.peek() == '\n') {
+        if (in.peek() == '\n' && freqs['\n'] > 0) {
             a = in.get();
-            if (in.peek() == '0') {
-                a = in.get();
-                go = false;
-            } else {
-                in.putback(a);
-            }
+            go = false;
         }
     }
-
     in.get();
     BitInputStream input(in);
     tree->build(freqs);
-    while (count < chars) {
+    while (count < totcnt) {
         unsigned char decod = tree->decode(input);
         out << decod;
         count++;

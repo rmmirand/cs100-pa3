@@ -4,6 +4,7 @@
  * Author: Rosa Miranda
  * empty file check from cplusplus infile documentation
  */
+#include <math.h>
 #include <fstream>
 #include <iostream>
 
@@ -11,6 +12,7 @@
 #include "HCNode.hpp"
 #include "HCTree.hpp"
 #include "cxxopts.hpp"
+
 #define ARGONE 1
 #define ARGTWO 2
 #define BYTE 8
@@ -84,15 +86,35 @@ void trueCompression(string inFileName, string outFileName) {
         unsigned char a = in.get();
         frequencies[(unsigned char)a]++;
     }
-    tree->build(frequencies);
-    out << tree->getRoot()->count;
+
+    unsigned int bytes = 1;
+    unsigned int max = 0;
     for (unsigned int i = 0; i < frequencies.size(); i++) {
-        if (frequencies[i] > 0) {
-            out << (unsigned char)i << endl
-                << (unsigned int)frequencies[i] << endl;
+        if (frequencies[i] > 0 && ((unsigned int)frequencies[i]) > max) {
+            max = (unsigned int)frequencies[i];
         }
     }
-    out << "\n0" << endl;
+    tree->build(frequencies);
+    out << max;
+    while (max >= 10) {
+        if ((max / 10)) {
+            max = max / 10;
+            bytes += 1;
+        }
+    }
+    unsigned int limit;
+    for (unsigned int i = 0; i < frequencies.size(); i++) {
+        limit = pow(10, (bytes - 1));
+        if (frequencies[i] > 0) {
+            out << (unsigned char)i;
+            while (limit > frequencies[i]) {
+                out << "0";
+                limit = limit / 10;
+            }
+            out << frequencies[i];
+        }
+    }
+    out << "\n" << endl;
     in.close();
     in.open(inFileName, ios::binary);
     while (in.peek() != ifstream::traits_type::eof()) {
